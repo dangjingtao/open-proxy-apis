@@ -1,0 +1,24 @@
+{
+  "version": "4",
+  "specifiers": {
+    "jsr:@hono/hono@^4.7.4": "4.7.4"
+  },
+  "jsr": {
+    "@hono/hono@4.7.4": {
+      "integrity": "c03c9cbe0fbfc4e51f3fee6502a7903aa4f9ef7c2c98635607b15eee14258825"
+    }
+  },
+  "remote": {
+    "https://deno.land/std@0.110.0/fmt/colors.ts": "8368ddf2d48dfe413ffd04cdbb7ae6a1009cf0dccc9c7ff1d76259d9c61a0621",
+    "https://deno.land/std@0.110.0/testing/_diff.ts": "ccd6c3af6e44c74bf1591acb1361995f5f50df64323a6e7fb3f16c8ea792c940",
+    "https://deno.land/std@0.110.0/testing/asserts.ts": "6b0d6ba564bdff807bd0f0e93e02c48aa3177acf19416bf84a7f420191ef74cd",
+    "https://deno.land/x/dotenv@v3.2.2/load.ts": "cbd76a0aee01aad8d09222afaa1dd04b84d9d3e44637503b01bf77a91df9e041",
+    "https://deno.land/x/dotenv@v3.2.2/mod.ts": "077b48773de9205266a0b44c3c3a3c3083449ed64bb0b6cc461b95720678d38e",
+    "https://deno.land/x/dotenv@v3.2.2/util.ts": "693730877b13f8ead2b79b2aa31e2a0652862f7dc0c5f6d2f313f4d39c7b7670"
+  },
+  "workspace": {
+    "dependencies": [
+      "jsr:@hono/hono@^4.7.4"
+    ]
+  }
+}
