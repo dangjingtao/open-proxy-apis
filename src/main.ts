@@ -6,7 +6,7 @@ import cors from "./middlewares/cors.ts";
 import { checkToken } from "./middlewares/auth.ts";
 import baseProxy from "./middlewares/baseProxy.ts";
 import handleLogin from "./handler/login.ts";
-import { ProviderKeys, providerConfig } from "./config/provider.config.ts";
+import { providerConfig } from "./config/provider.config.ts";
 
 const app = new Hono();
 app.use("api/*", cors());

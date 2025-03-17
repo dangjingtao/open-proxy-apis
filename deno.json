@@ -1,12 +1,15 @@
 {
   "imports": {
-    "hono": "jsr:@hono/hono@^4.7.4"
+    "hono": "jsr:@hono/hono@^4.7.4",
+    "@/": "./src/",
+    "lodash": "npm:lodash@^4.17.21"
   },
   "tasks": {
-    "dev": "deno run --watch --allow-net --allow-read --allow-env src/main.ts "
+    "dev": "deno run --watch --allow-net --allow-read --allow-env src/dev.ts ",
+    "main": "deno run --watch --allow-net --allow-read --allow-env src/dev.ts "
   },
   "compilerOptions": {
     "jsx": "precompile",
-    "jsxImportSource": "hono/jsx"
+    "jsxImportSource": "hono/jsx",
   }
 }

@@ -16,7 +16,6 @@ const baseProxy = ({
     const protocol = new URL(targetUrl).protocol;
     const port = new URL(targetUrl).port;
     const url = `${protocol}//${hostname}${port ? `:${port}` : ""}${path}`;
-    console.log(">>>>>>>>>>>>>>>>>", c.req, url);
 
     const API_KEY = Deno.env.get(`${provider.toUpperCase()}_API_KEY`);
     const authHeaders = new Headers(Object.fromEntries(c.req.raw.headers));
