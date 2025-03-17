@@ -10,7 +10,7 @@ const handleLogin = async (context: Context) => {
   if (invitationCode + "" === key) {
     const payload = {
       invitationCode,
-      exp: Math.floor(Date.now() / 1000) + 60 * 15, // 令牌在 5 分钟后过期
+      exp: Math.floor(Date.now() / 1000) + 60 * 60, // 令牌在 60 分钟后过期
     };
 
     const token = await sign(payload, key);
