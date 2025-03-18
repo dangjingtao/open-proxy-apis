@@ -1,6 +1,7 @@
 {
   "imports": {
-    "hono": "jsr:@hono/hono@^4.7.4"
+    "hono": "jsr:@hono/hono@^4.7.4",
+    "proxy-agent": "npm:proxy-agent@^6.5.0"
   },
   "tasks": {
     "dev": "deno run --watch --allow-net --allow-read --allow-env src/main.ts "

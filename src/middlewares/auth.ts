@@ -10,7 +10,10 @@ export const checkToken = async (context: Context, next: Next) => {
     return;
   }
 
-  const token = context.req.header("x-token");
+  const token = (context.req.header("Authorization") || "").replace(
+    "Bearer ",
+    ""
+  );
 
   if (!token) {
     return context.json({ error: "Unauthorized" }, 401);
