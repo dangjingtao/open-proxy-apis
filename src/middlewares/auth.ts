@@ -5,7 +5,10 @@ import { verify } from "hono/jwt";
 const API_KEY = Deno.env.get("API_KEY") || "";
 
 export const checkToken = async (context: Context, next: Next) => {
-  if (context.req.path === "/api/login") {
+  if (
+    context.req.path === "/api/login" ||
+    context.req.path.startsWith("/api/github-api")
+  ) {
     await next();
     return;
   }
