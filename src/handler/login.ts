@@ -5,6 +5,7 @@ import { sign } from "hono/jwt";
 
 const handleLogin = async (context: Context) => {
   const { invitationCode } = await context.req.json();
+  // !此处应从环境遍历中获取邀请码数组，并验证邀请码是否有效
   const key = Deno.env.get("API_KEY") + "";
 
   if (invitationCode + "" === key) {

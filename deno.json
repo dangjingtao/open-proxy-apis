@@ -1,6 +1,8 @@
 {
   "imports": {
+    "@notionhq/client": "npm:@notionhq/client@^2.3.0",
     "hono": "jsr:@hono/hono@^4.7.4",
+    "notion-to-md": "npm:notion-to-md@^4.0.0-alpha.4",
     "proxy-agent": "npm:proxy-agent@^6.5.0"
   },
   "tasks": {

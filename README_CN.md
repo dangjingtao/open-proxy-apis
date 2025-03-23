@@ -1,4 +1,4 @@
-# open-proxy-api-deno
+# open-proxy-apis
 
 [English](./README.md) | [中文](#中文)
 

@@ -1,7 +1,8 @@
 export type ProviderConfigItem = {
   provider_name: string;
-  api_host: string;
-  require_api_key: boolean;
+  api_host?: string;
+  require_api_key: boolean; // 是否需要密匙
+  standAlone?: boolean; // 是否独立运行自己的路由规则
 };
 
 export const providerConfig: ProviderConfigItem[] = [
@@ -34,6 +35,11 @@ export const providerConfig: ProviderConfigItem[] = [
     provider_name: "github-api",
     api_host: "https://api.github.com",
     require_api_key: false,
+  },
+  {
+    provider_name: "notion",
+    require_api_key: true,
+    standAlone: true,
   },
 ];
 

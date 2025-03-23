@@ -28,6 +28,7 @@ export const checkToken = async (context: Context, next: Next) => {
       return context.json({ error: "Unauthorized" }, 401);
     }
   } catch (_error) {
+    console.log(_error);
     return context.json({ error: "Unauthorized" }, 401);
   }
 
