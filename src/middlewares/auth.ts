@@ -1,8 +1,18 @@
 // middleware/auth.ts
-import { Context, Next } from "hono";
+import { Context, HonoRequest, Next } from "hono";
 import { verify } from "hono/jwt";
 
 const API_KEY = Deno.env.get("API_KEY") || "";
+
+const getTokenFromRequest = (req: HonoRequest) => {
+  // @ts-ignore: no types for headers
+  const authHeader = req.header()["authorization"];
+  if (authHeader && authHeader.startsWith("Bearer ")) {
+    return authHeader.substring(7);
+  }
+
+  return "";
+};
 
 export const checkToken = async (context: Context, next: Next) => {
   if (
@@ -13,10 +23,7 @@ export const checkToken = async (context: Context, next: Next) => {
     return;
   }
 
-  const token = (context.req.header("Authorization") || "").replace(
-    "Bearer ",
-    ""
-  );
+  const token = await getTokenFromRequest(context.req);
 
   if (!token) {
     return context.json({ error: "Unauthorized" }, 401);

@@ -41,6 +41,11 @@ export const providerConfig: ProviderConfigItem[] = [
     require_api_key: true,
     standAlone: true,
   },
+  {
+    provider_name: "tavily",
+    api_host: "https://api.tavily.com",
+    require_api_key: true,
+  },
 ];
 
 export type ProviderKeys = keyof typeof providerConfig;

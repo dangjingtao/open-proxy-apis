@@ -2,6 +2,7 @@ import { Hono, Context } from "hono";
 import "https://deno.land/x/dotenv@v3.2.2/load.ts";
 import { poweredBy } from "hono/powered-by";
 import { logger } from "hono/logger";
+import { csrf } from "hono/csrf";
 import cors from "./middlewares/cors.ts";
 import { checkToken } from "./middlewares/auth.ts";
 import baseProxy from "./middlewares/baseProxy.ts";
@@ -13,6 +14,7 @@ import handleNotion from "./handler/notion.ts";
 const PORT = 8787;
 
 const app = new Hono();
+// app.use(csrf());
 app.use("api/*", cors());
 
 app.use(

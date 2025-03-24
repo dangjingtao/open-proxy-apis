@@ -3,6 +3,7 @@
   "specifiers": {
     "jsr:@hono/hono@^4.7.4": "4.7.4",
     "npm:@notionhq/client@^2.3.0": "2.3.0",
+    "npm:@tavily/core@~0.3.3": "0.3.3",
     "npm:notion-to-md@^4.0.0-alpha.4": "4.0.0-alpha.4_@notionhq+client@2.3.0",
     "npm:proxy-agent@^6.5.0": "6.5.0"
   },
@@ -17,6 +18,13 @@
       "dependencies": [
         "@types/node-fetch",
         "node-fetch"
+      ]
+    },
+    "@tavily/core@0.3.3": {
+      "integrity": "sha512-Dn1TvtVo/btPDWXnH+bhlQxj+YGW0rkM1PUNBxJeEnjHBbuhjjDsibiqoe/wObMzrF44+gBB59NJ3MNduVTjMw==",
+      "dependencies": [
+        "axios",
+        "js-tiktoken"
       ]
     },
     "@tootallnate/quickjs-emscripten@0.23.0": {
@@ -46,6 +54,17 @@
     },
     "asynckit@0.4.0": {
       "integrity": "sha512-Oei9OH4tRh0YqU3GxhX79dM/mwVgvbZJaSNaRk+bshkj0S5cfHcgYakreBjrHwatXKbz+IoIdYLxrKim2MjW0Q=="
+    },
+    "axios@1.8.4": {
+      "integrity": "sha512-eBSYY4Y68NNlHbHBMdeDmKNtDgXWhQsJcGqzO3iLUM0GraQFSS9cVgPX5I9b3lbdFKyYoAEGAZF1DwhTaljNAw==",
+      "dependencies": [
+        "follow-redirects",
+        "form-data",
+        "proxy-from-env"
+      ]
+    },
+    "base64-js@1.5.1": {
+      "integrity": "sha512-AKpaYlHn8t4SVbOHCy+b5+KKgvR4vrsD8vbvrbiQJps7fKDTkjkDry6ji0rUJjC0kzbNePLwzxq8iypo41qeWA=="
     },
     "basic-ftp@5.0.5": {
       "integrity": "sha512-4Bcg1P8xhUuqcii/S0Z9wiHIrQVPMermM1any+MX5GeGD7faD3/msQUDGLol9wOcz4/jbg/WJnGqoJF6LiBdtg=="
@@ -130,6 +149,9 @@
     "esutils@2.0.3": {
       "integrity": "sha512-kVscqXk4OCp68SZ0dkgEKVi6/8ij300KBWTJq32P/dYeWTSwK41WyTxalN1eRmA5Z9UU/LX9D7FWSmV9SAYx6g=="
     },
+    "follow-redirects@1.15.9": {
+      "integrity": "sha512-gew4GsXizNgdoRyqmyfMHyAmXsZDk6mHkSxZFCzW9gwlbtOW44CDtYavM+y+72qD/Vq2l550kMF52DT8fOLJqQ=="
+    },
     "form-data@4.0.2": {
       "integrity": "sha512-hGfm/slu0ZabnNt4oaRZ6uREyfCj6P4fT/n6A1rGV+Z0VdGXjfOhVUpkn6qVQONHGIFwmveGXyDs75+nr6FM8w==",
       "dependencies": [
@@ -209,6 +231,12 @@
       "dependencies": [
         "jsbn",
         "sprintf-js"
+      ]
+    },
+    "js-tiktoken@1.0.19": {
+      "integrity": "sha512-XC63YQeEcS47Y53gg950xiZ4IWmkfMe4p2V9OSaBt26q+p47WHn18izuXzSclCI73B7yGqtfRsT6jcZQI0y08g==",
+      "dependencies": [
+        "base64-js"
       ]
     },
     "jsbn@1.1.0": {
@@ -344,6 +372,7 @@
     "dependencies": [
       "jsr:@hono/hono@^4.7.4",
       "npm:@notionhq/client@^2.3.0",
+      "npm:@tavily/core@~0.3.3",
       "npm:notion-to-md@^4.0.0-alpha.4",
       "npm:proxy-agent@^6.5.0"
     ]
