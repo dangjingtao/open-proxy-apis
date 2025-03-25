@@ -39,7 +39,7 @@ const baseProxy = ({
 }) => {
   return async (c: Context, next: Next) => {
     const API_KEY = Deno.env.get(`${provider.toUpperCase()}_API_KEY`);
-    if (!API_KEY) {
+    if (!API_KEY && require_api_key) {
       throw new Error(`Please set ${provider.toUpperCase()}_API_KEY`);
     }
 
