@@ -4,7 +4,6 @@ import { tavily } from "@tavily/core";
 const handleTavily = async (req: HonoRequest, API_KEY: string) => {
   const json = await req.json();
   delete json.api_key;
-  // const tavilyClient = tavily({ apiKey: API_KEY });
 
   const resp = await fetch("https://api.tavily.com/search", {
     method: "POST",
@@ -20,12 +19,6 @@ const handleTavily = async (req: HonoRequest, API_KEY: string) => {
   });
 
   return resp;
-
-  // // console.log(API_KEY, json);
-  // const response = await tavilyClient.search(json.query, {
-  //   max_results: json.maxResult,
-  // });
-  // return response;
 };
 
 const baseProxy = ({
@@ -62,7 +55,22 @@ const baseProxy = ({
       const hostname = new URL(targetUrl).hostname;
       const protocol = new URL(targetUrl).protocol;
       const port = new URL(targetUrl).port;
-      const url = `${protocol}//${hostname}${port ? `:${port}` : ""}${path}`;
+
+      // 处理查询参数
+      const queryParams = c.req.query(); // 获取查询参数
+      const queryString = new URLSearchParams(queryParams).toString();
+      let url = `${protocol}//${hostname}${port ? `:${port}` : ""}${path}${
+        queryString ? `?${queryString}` : ""
+      }`;
+
+      if (provider === "cloudflare") {
+        url = `${protocol}//${hostname}${
+          port ? `:${port}` : ""
+        }/client/v4/accounts/2d8b3ad301699892491d5a95b9c962a2/ai${path}${
+          queryString ? `?${queryString}` : ""
+        }`;
+        console.log(1111, url);
+      }
 
       const proxyBody = c.req.raw.body;
 

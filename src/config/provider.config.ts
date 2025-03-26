@@ -46,6 +46,12 @@ export const providerConfig: ProviderConfigItem[] = [
     api_host: "https://api.tavily.com",
     require_api_key: true,
   },
+  {
+    provider_name: "cloudflare",
+    api_host:
+      "https://api.cloudflare.com/client/v4/accounts/2d8b3ad301699892491d5a95b9c962a2/ai",
+    require_api_key: true,
+  },
 ];
 
 export type ProviderKeys = keyof typeof providerConfig;
