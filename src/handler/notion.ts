@@ -45,8 +45,6 @@ const getBot = async (context: Context) => {
 };
 
 const getDatabase = async (context: Context) => {
-  console.log(1111111111, NOTION_API_KEY, NOTION_DB_ID);
-
   if (!NOTION_DB_ID) {
     throw new Error("NOTION_DB_ID is not defined");
   }

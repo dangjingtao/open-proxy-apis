@@ -1,5 +1,4 @@
 import { Context, HonoRequest, Next } from "hono";
-import { tavily } from "@tavily/core";
 
 const handleTavily = async (req: HonoRequest, API_KEY: string) => {
   const json = await req.json();
@@ -69,7 +68,15 @@ const baseProxy = ({
         }/client/v4/accounts/2d8b3ad301699892491d5a95b9c962a2/ai${path}${
           queryString ? `?${queryString}` : ""
         }`;
-        console.log(1111, url);
+      }
+
+      if (provider === "openrouter") {
+        url = `${protocol}//${hostname}${port ? `:${port}` : ""}/api${path}${
+          queryString ? `?${queryString}` : ""
+        }`;
+        if (path === "/v1/models") {
+          authHeaders.delete("Authorization");
+        }
       }
 
       const proxyBody = c.req.raw.body;
