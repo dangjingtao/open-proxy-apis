@@ -2,7 +2,7 @@
 import { Context, HonoRequest, Next } from "hono";
 import { verify } from "hono/jwt";
 
-const API_KEY = Deno.env.get("API_KEY") ?? "";
+const API_KEY = Deno.env.get("API_KEY") || "";
 
 const getTokenFromRequest = (req: HonoRequest) => {
   // @ts-ignore: no types for headers

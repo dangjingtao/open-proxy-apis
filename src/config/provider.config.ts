@@ -5,7 +5,7 @@ export type ProviderConfigItem = {
   standAlone?: boolean; // 是否独立运行自己的路由规则
 };
 
-export const EXPIRED_TIME = Math.floor(Date.now() / 1000) + 600 * 60; // 过期时间，单位秒
+export const EXPIRED_TIME = Math.floor(Date.now() / 1000) + 60000 * 60; // 过期时间，单位秒
 
 export const providerConfig: ProviderConfigItem[] = [
   {
