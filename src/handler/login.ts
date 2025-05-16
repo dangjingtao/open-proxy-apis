@@ -1,6 +1,7 @@
 import { Context, Hono } from "hono";
 // import { createFactory } from "hono/factory";
 import { sign } from "hono/jwt";
+import { EXPIRED_TIME } from "../config/provider.config.ts";
 // import { HTTPException } from "hono/http-exception";
 
 const handleLogin = async (context: Context) => {
@@ -11,7 +12,7 @@ const handleLogin = async (context: Context) => {
   if (invitationCode + "" === key) {
     const payload = {
       invitationCode,
-      exp: Math.floor(Date.now() / 1000) + 60 * 60, // 令牌在 60 分钟后过期
+      exp: EXPIRED_TIME, // 令牌过期时间
     };
 
     const token = await sign(payload, key);

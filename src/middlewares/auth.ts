@@ -2,12 +2,12 @@
 import { Context, HonoRequest, Next } from "hono";
 import { verify } from "hono/jwt";
 
-const API_KEY = Deno.env.get("API_KEY") || "";
+const API_KEY = Deno.env.get("API_KEY") ?? "";
 
 const getTokenFromRequest = (req: HonoRequest) => {
   // @ts-ignore: no types for headers
   const authHeader = req.header()["authorization"];
-  if (authHeader && authHeader.startsWith("Bearer ")) {
+  if (authHeader?.startsWith("Bearer ")) {
     return authHeader.substring(7);
   }
 
