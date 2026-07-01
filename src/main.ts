@@ -1,5 +1,5 @@
 import { Hono } from "hono";
-import "https://deno.land/x/dotenv@v3.2.2/load.ts";
+import "dotenv/load";
 import { poweredBy } from "hono/powered-by";
 import { logger } from "hono/logger";
 import cors from "./middlewares/cors.ts";

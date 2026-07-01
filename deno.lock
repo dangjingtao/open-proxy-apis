@@ -188,6 +188,7 @@
   "workspace": {
     "dependencies": [
       "jsr:@hono/hono@^4.7.4",
+      "jsr:@std/assert@1",
       "npm:@notionhq/client@^2.3.0",
       "npm:notion-to-md@^4.0.0-alpha.4"
     ]

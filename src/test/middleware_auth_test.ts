@@ -1,6 +1,6 @@
 // tests/middleware_auth_test.ts
 import { Hono } from "hono";
-import { assertEquals } from "https://deno.land/std@0.110.0/testing/asserts.ts";
+import { assertEquals } from "@std/assert";
 import { sign } from "hono/jwt";
 import { checkToken } from "../middlewares/auth.ts";
 
