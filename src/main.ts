@@ -1,8 +1,7 @@
-import { Hono, Context } from "hono";
+import { Hono } from "hono";
 import "https://deno.land/x/dotenv@v3.2.2/load.ts";
 import { poweredBy } from "hono/powered-by";
 import { logger } from "hono/logger";
-import { csrf } from "hono/csrf";
 import cors from "./middlewares/cors.ts";
 import { checkToken } from "./middlewares/auth.ts";
 import baseProxy from "./middlewares/baseProxy.ts";
@@ -20,7 +19,7 @@ app.use("api/*", cors());
 app.use(
   poweredBy({
     serverName: "open-proxy-apis",
-  })
+  }),
 );
 
 app.use(logger());
@@ -28,7 +27,7 @@ app.use(logger());
 // 应用中间件到所有 /api/* 路由，但排除 /api/login
 app.use("/api/*", checkToken);
 
-app.get("/api/status", async (c) => {
+app.get("/api/status", (c) => {
   return c.json({
     appName: "open-proxy-apis",
     statusCode: 200,
@@ -49,10 +48,10 @@ providerConfig.forEach(
           provider: provider_name,
           targetUrl: api_host || "/",
           require_api_key,
-        })
+        }),
       );
     }
-  }
+  },
 );
 
 // 网页请求代理（get）

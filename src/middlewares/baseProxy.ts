@@ -40,6 +40,9 @@ const baseProxy = ({
     let response = null;
 
     if (isTavilyAPI) {
+      if (!API_KEY) {
+        throw new Error("Please set TAVILY_API_KEY");
+      }
       response = await handleTavily(c.req, API_KEY);
       console.log(response);
     } else {

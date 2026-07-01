@@ -2,11 +2,12 @@
 import { Context, HonoRequest, Next } from "hono";
 import { verify } from "hono/jwt";
 
-const API_KEY = Deno.env.get("API_KEY") || "";
+const getJwtSecret = () => {
+  return Deno.env.get("JWT_SECRET") ?? Deno.env.get("API_KEY") ?? "";
+};
 
 const getTokenFromRequest = (req: HonoRequest) => {
-  // @ts-ignore: no types for headers
-  const authHeader = req.header()["authorization"];
+  const authHeader = req.header("Authorization");
   if (authHeader?.startsWith("Bearer ")) {
     return authHeader.substring(7);
   }
@@ -23,19 +24,19 @@ export const checkToken = async (context: Context, next: Next) => {
     return;
   }
 
-  const token = await getTokenFromRequest(context.req);
+  const token = getTokenFromRequest(context.req);
+  const jwtSecret = getJwtSecret();
 
-  if (!token) {
+  if (!token || !jwtSecret) {
     return context.json({ error: "Unauthorized" }, 401);
   }
 
   try {
-    const isValid = await verify(token, API_KEY);
+    const isValid = await verify(token, jwtSecret);
     if (!isValid) {
       return context.json({ error: "Unauthorized" }, 401);
     }
   } catch (_error) {
-    console.log(_error);
     return context.json({ error: "Unauthorized" }, 401);
   }
 

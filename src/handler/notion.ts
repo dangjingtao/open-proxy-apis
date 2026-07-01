@@ -1,8 +1,7 @@
 import { Context, Hono } from "hono";
 import { NotionConverter } from "notion-to-md";
 import { DefaultExporter } from "notion-to-md/plugins/exporter";
-// import { createFactory } from "hono/factory";
-import { Client, APIErrorCode } from "@notionhq/client";
+import { Client, APIErrorCode, isNotionClientError } from "@notionhq/client";
 const NOTION_API_KEY = Deno.env.get("NOTION_API_KEY");
 const NOTION_DB_ID = Deno.env.get("NOTION_DB_ID");
 
@@ -16,31 +15,33 @@ const getUsers = async (context: Context) => {
 
     return context.json(listUsersResponse.results, 200);
   } catch (error) {
-    if (error.code === APIErrorCode.ObjectNotFound) {
-      //
-      // For example: handle by asking the user to select a different database
-      //
-    } else {
-      // Other error handling code
-      console.error(error);
+    if (
+      isNotionClientError(error) &&
+      error.code === APIErrorCode.ObjectNotFound
+    ) {
+      return context.json({ error: "Notion object not found" }, 404);
     }
+
+    console.error(error);
+    return context.json({ error: "Notion request failed" }, 500);
   }
 };
 
 const getBot = async (context: Context) => {
   try {
-    const bot = await notion.users.me();
+    const bot = await notion.users.me({});
 
     return context.json(bot, 200);
   } catch (error) {
-    if (error.code === APIErrorCode.ObjectNotFound) {
-      //
-      // For example: handle by asking the user to select a different database
-      //
-    } else {
-      // Other error handling code
-      console.error(error);
+    if (
+      isNotionClientError(error) &&
+      error.code === APIErrorCode.ObjectNotFound
+    ) {
+      return context.json({ error: "Notion object not found" }, 404);
     }
+
+    console.error(error);
+    return context.json({ error: "Notion request failed" }, 500);
   }
 };
 
@@ -56,11 +57,15 @@ const getDatabase = async (context: Context) => {
 
     return context.json(listUsersResponse.results, 200);
   } catch (error) {
-    if (error.code === APIErrorCode.ObjectNotFound) {
-    } else {
-      // Other error handling code
-      console.error(error);
+    if (
+      isNotionClientError(error) &&
+      error.code === APIErrorCode.ObjectNotFound
+    ) {
+      return context.json({ error: "Notion database not found" }, 404);
     }
+
+    console.error(error);
+    return context.json({ error: "Notion request failed" }, 500);
   }
 };
 
@@ -68,7 +73,7 @@ const getDatabase = async (context: Context) => {
 const retrievePage = async (context: Context) => {
   const pageId = context.req.param("id");
 
-  const buffer = {};
+  const buffer: Record<string, string> = {};
   const exporter = new DefaultExporter({
     outputType: "buffer",
     buffer: buffer,
@@ -81,11 +86,16 @@ const retrievePage = async (context: Context) => {
 };
 
 const createPageWithContent = async (context: Context) => {
+  if (!NOTION_DB_ID) {
+    return context.json({ error: "NOTION_DB_ID is not defined" }, 500);
+  }
+
   const body = await context.req.json();
   const params = {
     parent: { database_id: NOTION_DB_ID },
     ...body,
   };
+
   const response = await notion.pages.create(params);
   return context.json(response, 200);
 };

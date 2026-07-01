@@ -1,21 +1,25 @@
 import { Context, Hono } from "hono";
-// import { createFactory } from "hono/factory";
 import { sign } from "hono/jwt";
 import { EXPIRED_TIME } from "../config/provider.config.ts";
-// import { HTTPException } from "hono/http-exception";
 
 const handleLogin = async (context: Context) => {
   const { invitationCode } = await context.req.json();
-  // !此处应从环境遍历中获取邀请码数组，并验证邀请码是否有效
-  const key = Deno.env.get("API_KEY") + "";
+  // 默认向后兼容 API_KEY，推荐单独配置 INVITATION_CODE 与 JWT_SECRET
+  const invitationCodeExpected =
+    Deno.env.get("INVITATION_CODE") ?? Deno.env.get("API_KEY") ?? "";
+  const jwtSecret = Deno.env.get("JWT_SECRET") ?? Deno.env.get("API_KEY") ?? "";
 
-  if (invitationCode + "" === key) {
+  if (!invitationCodeExpected || !jwtSecret) {
+    return context.json({ error: "Server auth config missing" }, 500);
+  }
+
+  if (invitationCode + "" === invitationCodeExpected) {
     const payload = {
       invitationCode,
       exp: EXPIRED_TIME, // 令牌过期时间
     };
 
-    const token = await sign(payload, key);
+    const token = await sign(payload, jwtSecret);
 
     return context.json({ success: true, token }, 200);
   } else {
