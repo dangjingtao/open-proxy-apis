@@ -15,7 +15,7 @@ jobs:
 
       - uses: denoland/setup-deno@v2
         with:
-          deno-version: v2.1.5
+          deno-version: v2.9.0
 
       - name: Install deps
         run: deno ci
