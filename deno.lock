@@ -2,12 +2,23 @@
   "version": "4",
   "specifiers": {
     "jsr:@hono/hono@^4.7.4": "4.7.4",
+    "jsr:@std/assert@1": "1.0.10",
+    "jsr:@std/internal@^1.0.5": "1.0.5",
     "npm:@notionhq/client@^2.3.0": "2.3.0",
     "npm:notion-to-md@^4.0.0-alpha.4": "4.0.0-alpha.4_@notionhq+client@2.3.0"
   },
   "jsr": {
     "@hono/hono@4.7.4": {
       "integrity": "c03c9cbe0fbfc4e51f3fee6502a7903aa4f9ef7c2c98635607b15eee14258825"
+    },
+    "@std/assert@1.0.10": {
+      "integrity": "59b5cbac5bd55459a19045d95cc7c2ff787b4f8527c0dd195078ff6f9481fbb3",
+      "dependencies": [
+        "jsr:@std/internal"
+      ]
+    },
+    "@std/internal@1.0.5": {
+      "integrity": "54a546004f769c1ac9e025abd15a76b6671ddc9687e2313b67376125650dc7ba"
     }
   },
   "npm": {
