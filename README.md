@@ -2,7 +2,9 @@
 
 [English](#english) | [中文](./README_CN.md)
 
-An AI service provider proxy layer (not necessarily just for resellers), primarily designed to meet the needs of people in China to access and critique Western AI services.
+An AI service provider proxy layer (not necessarily just for resellers),
+primarily designed to meet the needs of people in China to access and critique
+Western AI services.
 
 Currently supported:
 
@@ -12,9 +14,12 @@ Currently supported:
 - ollama
 - kimi
 
-Since AI services often imply payment, this project not only aggregates the above services but also implements a very basic authentication mechanism. If you need production-level authentication, please develop further.
+Since AI services often imply payment, this project not only aggregates the
+above services but also implements a very basic authentication mechanism. If you
+need production-level authentication, please develop further.
 
-Deployed on [Deno Deploy](https://dash.deno.com/), this service is utilized in my another project [ui-chat](https://github.com/dangjingtao/ui-chat-view).
+Deployed on [Deno Deploy](https://dash.deno.com/), this service is utilized in
+my another project [ui-chat](https://github.com/dangjingtao/ui-chat-view).
 
 ## Run in Local
 
@@ -42,10 +47,11 @@ GROQ_API_KEY =
 DEEPSEEK_API_KEY = 
 KIMI_API_KEY = 
 COHERE_API_KEY = 
-GEMINI_API_KEY = 
+GEMINI_API_KEY =
 ```
 
-Configure the request domain in the project's `/src/config/provider.config.ts` file.
+Configure the request domain in the project's `/src/config/provider.config.ts`
+file.
 
 ```bash
 # This is your own apiKey, please set it properly
@@ -55,7 +61,7 @@ GROQ_API_KEY =
 DEEPSEEK_API_KEY = 
 KIMI_API_KEY = 
 COHERE_API_KEY = 
-GEMINI_API_KEY = 
+GEMINI_API_KEY =
 ```
 
 Then, happily execute:
@@ -71,14 +77,15 @@ For debugging:
 ```bash
 curl --request GET \
   --url 'https://localhost:8000/kimi/v1/models' \
-  --header 'Authorization: Bearer <your-api-key>' 
+  --header 'Authorization: Bearer <your-api-key>'
 ```
 
 ## Work with Deno Deploy
 
 1. [Fork](https://github.com/dangjingtao/open-proxy-api-deno/fork) this project.
 
-2. Modify the allowed request domains on GitHub (open-proxy-api-deno/blob/main/src/config/provider.config.ts):
+2. Modify the allowed request domains on GitHub
+   (open-proxy-api-deno/blob/main/src/config/provider.config.ts):
    ```ts
    export const allowedOrigins = [
    -  "http://localhost:8461",
@@ -92,7 +99,8 @@ curl --request GET \
 
 4. Create a project on [Deno Deploy](https://dash.deno.com/new_project).
 
-5. Select this project and fill in the project name (please fill in the project name carefully, as it relates to the automatically assigned domain).
+5. Select this project and fill in the project name (please fill in the project
+   name carefully, as it relates to the automatically assigned domain).
 
 6. Set the entry point to `src/main.ts`.
 
@@ -107,7 +115,7 @@ curl --request GET \
    DEEPSEEK_API_KEY = 
    KIMI_API_KEY = 
    COHERE_API_KEY = 
-   GEMINI_API_KEY = 
+   GEMINI_API_KEY =
    ```
 
 9. After successful deployment, you will obtain a domain. Just click to use it.
