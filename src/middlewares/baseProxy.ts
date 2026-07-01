@@ -87,10 +87,9 @@ const baseProxy = ({
       const newRequest = new Request(url, {
         headers: authHeaders,
         method: c.req.method,
-        body:
-          c.req.method !== "GET" && c.req.method !== "HEAD"
-            ? (proxyBody as BodyInit)
-            : undefined,
+        body: c.req.method !== "GET" && c.req.method !== "HEAD"
+          ? (proxyBody as BodyInit)
+          : undefined,
         redirect: "follow",
       });
 

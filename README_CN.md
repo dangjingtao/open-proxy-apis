@@ -21,8 +21,9 @@
 首先安装 [Deno](https://deno.com/)
 
 ```bash
-curl -fsSL https://deno.land/install.sh | sh 
+curl -fsSL https://deno.land/install.sh | sh
 ```
+
 然后克隆本项目。并修改环境变量。
 
 ```sh
@@ -41,7 +42,7 @@ GROQ_API_KEY =
 DEEPSEEK_API_KEY = 
 KIMI_API_KEY = 
 COHERE_API_KEY = 
-GEMINI_API_KEY = 
+GEMINI_API_KEY =
 ```
 
 在项目`/src/config/provider.config.ts`文件配置请求域名
@@ -54,11 +55,10 @@ GROQ_API_KEY =
 DEEPSEEK_API_KEY = 
 KIMI_API_KEY = 
 COHERE_API_KEY = 
-GEMINI_API_KEY = 
+GEMINI_API_KEY =
 ```
 
 然后。愉快的执行：
-
 
 ```shell
 deno task dev
@@ -71,7 +71,7 @@ deno task dev
 ```bash
 curl --request GET \
   --url 'https://localhost:8000/kimi/v1/models' \
-  --header 'Authorization: Bearer <your-api-key>' 
+  --header 'Authorization: Bearer <your-api-key>'
 ```
 
 ## Work with Deno deploy
@@ -81,10 +81,10 @@ curl --request GET \
 2. 在github上修改可请求域名(open-proxy-api-deno/blob/main/src/config/provider.config.ts)：
    ```ts
    export const allowedOrigins = [
-   -  "http://localhost:8461",
-   -  "https://ui-chat-view.pages.dev",
-   -  "https://uichat.tomz.io",
-   +  你的域名  
+     -"http://localhost:8461",
+     -"https://ui-chat-view.pages.dev",
+     -"https://uichat.tomz.io",
+     +你的域名,
    ];
    ```
 
@@ -94,7 +94,7 @@ curl --request GET \
 
 5. 选择此项目，填写项目名字（请仔细填写项目名字，关系到自动分配的域名）
 
-6. Entrypoint 填写 `src/main.ts` 
+6. Entrypoint 填写 `src/main.ts`
 
 7. 点击 **Deploy Project**
 
@@ -107,7 +107,7 @@ curl --request GET \
    DEEPSEEK_API_KEY = 
    KIMI_API_KEY = 
    COHERE_API_KEY = 
-   GEMINI_API_KEY = 
+   GEMINI_API_KEY =
    ```
 
 9. 部署成功后获得域名，点开即用。
@@ -122,7 +122,8 @@ async function fetchFileContent({
   filePath,
   token = null,
 }) {
-  const url = `http://localhost:8000/github-api/repos/${owner}/${repo}/contents/${filePath}?ref=${branch}`;
+  const url =
+    `http://localhost:8000/github-api/repos/${owner}/${repo}/contents/${filePath}?ref=${branch}`;
 
   const headers = {
     Accept: "application/vnd.github.v3+json",
@@ -148,9 +149,8 @@ fetchFileContent({
   repo: "ui-chat-view",
   branch: "main",
   filePath: "README.md",
-  token: '<your api key>',
+  token: "<your api key>",
 })
   .then((content) => console.log(content))
   .catch((error) => console.error(error));
 ```
-

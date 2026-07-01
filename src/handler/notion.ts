@@ -1,7 +1,7 @@
 import { Context, Hono } from "hono";
 import { NotionConverter } from "notion-to-md";
 import { DefaultExporter } from "notion-to-md/plugins/exporter";
-import { Client, APIErrorCode, isNotionClientError } from "@notionhq/client";
+import { APIErrorCode, Client, isNotionClientError } from "@notionhq/client";
 const NOTION_API_KEY = Deno.env.get("NOTION_API_KEY");
 const NOTION_DB_ID = Deno.env.get("NOTION_DB_ID");
 

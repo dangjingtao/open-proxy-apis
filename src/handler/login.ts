@@ -5,8 +5,8 @@ import { EXPIRED_TIME } from "../config/provider.config.ts";
 const handleLogin = async (context: Context) => {
   const { invitationCode } = await context.req.json();
   // 默认向后兼容 API_KEY，推荐单独配置 INVITATION_CODE 与 JWT_SECRET
-  const invitationCodeExpected =
-    Deno.env.get("INVITATION_CODE") ?? Deno.env.get("API_KEY") ?? "";
+  const invitationCodeExpected = Deno.env.get("INVITATION_CODE") ??
+    Deno.env.get("API_KEY") ?? "";
   const jwtSecret = Deno.env.get("JWT_SECRET") ?? Deno.env.get("API_KEY") ?? "";
 
   if (!invitationCodeExpected || !jwtSecret) {
