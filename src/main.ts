@@ -1,5 +1,4 @@
 import { Hono } from "hono";
-import "dotenv/load";
 import { poweredBy } from "hono/powered-by";
 import { logger } from "hono/logger";
 import cors from "./middlewares/cors.ts";
@@ -9,10 +8,9 @@ import websiteProxy from "./middlewares/websiteProxy.ts";
 import handleLogin from "./handler/login.ts";
 import { providerConfig } from "./config/provider.config.ts";
 import handleNotion from "./handler/notion.ts";
+import type { AppEnv } from "./config/env.ts";
 
-const PORT = 8787;
-
-const app = new Hono();
+const app = new Hono<{ Bindings: AppEnv }>();
 // app.use(csrf());
 app.use("api/*", cors());
 
@@ -58,4 +56,4 @@ providerConfig.forEach(
 app.use("/proxy/website/*", cors());
 app.use("/proxy/website/*", websiteProxy());
 
-Deno.serve({ port: PORT }, app.fetch);
+export default app;
