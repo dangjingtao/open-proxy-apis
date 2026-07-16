@@ -1,9 +1,10 @@
 // middleware/auth.ts
 import { Context, HonoRequest, Next } from "hono";
 import { verify } from "hono/jwt";
+import { type AppEnv, getEnv } from "../config/env.ts";
 
-const getJwtSecret = () => {
-  return Deno.env.get("JWT_SECRET") ?? Deno.env.get("API_KEY") ?? "";
+const getJwtSecret = (env: AppEnv) => {
+  return getEnv(env, "JWT_SECRET") ?? getEnv(env, "API_KEY") ?? "";
 };
 
 const getTokenFromRequest = (req: HonoRequest) => {
@@ -25,14 +26,14 @@ export const checkToken = async (context: Context, next: Next) => {
   }
 
   const token = getTokenFromRequest(context.req);
-  const jwtSecret = getJwtSecret();
+  const jwtSecret = getJwtSecret(context.env);
 
   if (!token || !jwtSecret) {
     return context.json({ error: "Unauthorized" }, 401);
   }
 
   try {
-    const isValid = await verify(token, jwtSecret);
+    const isValid = await verify(token, jwtSecret, "HS256");
     if (!isValid) {
       return context.json({ error: "Unauthorized" }, 401);
     }

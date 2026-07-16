@@ -8,20 +8,25 @@
 
 - groq
 - cohere
-- gemini
 - deepseek
 - kimi
+- gemini
+- openrouter
+- cloudflare AI
+- Tavily 搜索
+- Notion
+- GitHub API
 
 因为ai服务往往意味着付费。因此，本项目聚合上述服务同时，做了一个极为基础的验证。如果需要生产级别的验证，请二次开发。
 
-部署于[deno deploy](https://dash.deno.com/)，本服务在我另外一个项目[ui-chat](https://github.com/dangjingtao/ui-chat-view)中得到了应用。
+部署目标为 [Cloudflare Workers](https://workers.cloudflare.com/)，本服务在我另外一个项目[ui-chat](https://github.com/dangjingtao/ui-chat-view)中得到了应用。
 
 ## 本地运行
 
-首先安装 [Deno](https://deno.com/)
+首先安装 [Node.js](https://nodejs.org/)。
 
 ```bash
-curl -fsSL https://deno.land/install.sh | sh
+npm install
 ```
 
 然后克隆本项目。并修改环境变量。
@@ -29,7 +34,7 @@ curl -fsSL https://deno.land/install.sh | sh
 ```sh
 git clone https://github.com/dangjingtao/open-proxy-api-deno.git
 cd open-proxy-api-deno
-cp ".env example" ".env"
+cp ".env example" ".dev.vars"
 ```
 
 你可以在任意一个记事本中编辑`.env`文件的环境变量
@@ -38,10 +43,10 @@ cp ".env example" ".env"
 # 这是你自己的apiKey,
 API_KEY = <your-api-key>
 # 需要从对应服务商处取得
-GROQ_API_KEY = 
-DEEPSEEK_API_KEY = 
-KIMI_API_KEY = 
-COHERE_API_KEY = 
+GROQ_API_KEY =
+DEEPSEEK_API_KEY =
+KIMI_API_KEY =
+COHERE_API_KEY =
 GEMINI_API_KEY =
 ```
 
@@ -51,34 +56,35 @@ GEMINI_API_KEY =
 # 这是你自己定义的apiKey,请妥善设置
 API_KEY = <your-api-key>
 # 需要从对应服务商处取得
-GROQ_API_KEY = 
-DEEPSEEK_API_KEY = 
-KIMI_API_KEY = 
-COHERE_API_KEY = 
+GROQ_API_KEY =
+DEEPSEEK_API_KEY =
+KIMI_API_KEY =
+COHERE_API_KEY =
 GEMINI_API_KEY =
 ```
 
 然后。愉快的执行：
 
 ```shell
-deno task dev
+npm run dev
 ```
 
-服务将在本机`8000`端口运行。
+服务将在本机`8787`端口运行。
 
 调试：
 
 ```bash
 curl --request GET \
-  --url 'https://localhost:8000/kimi/v1/models' \
+  --url 'http://localhost:8787/api/kimi/v1/models' \
   --header 'Authorization: Bearer <your-api-key>'
 ```
 
-## Work with Deno deploy
+## 部署到 Cloudflare Workers
 
-1. [fork](https://github.com/dangjingtao/open-proxy-api-deno/fork)本项目
+1. Fork 本项目。
 
-2. 在github上修改可请求域名(open-proxy-api-deno/blob/main/src/config/provider.config.ts)：
+2. 修改 `src/config/origin.config.ts` 中的可请求域名。
+
    ```ts
    export const allowedOrigins = [
      -"http://localhost:8461",
@@ -88,29 +94,28 @@ curl --request GET \
    ];
    ```
 
-3. github账号 登录 https://dash.deno.com/
+3. 登录 Cloudflare：
 
-4. 创建项目 https://dash.deno.com/new_project
-
-5. 选择此项目，填写项目名字（请仔细填写项目名字，关系到自动分配的域名）
-
-6. Entrypoint 填写 `src/main.ts`
-
-7. 点击 **Deploy Project**
-
-8. 在线上设置环境变量
    ```bash
-   # 这是你自己定义的apiKey,请妥善设置
-   API_KEY = <your-api-key>
-   # 需要从对应服务商处取得
-   GROQ_API_KEY = 
-   DEEPSEEK_API_KEY = 
-   KIMI_API_KEY = 
-   COHERE_API_KEY = 
-   GEMINI_API_KEY =
+   npx wrangler login
    ```
 
-9. 部署成功后获得域名，点开即用。
+4. 配置 Secrets：
+
+   ```bash
+   npx wrangler secret put API_KEY
+   npx wrangler secret put JWT_SECRET
+   npx wrangler secret put INVITATION_CODE
+   npx wrangler secret put GROQ_API_KEY
+   ```
+
+   其他已启用的服务商密钥也需要分别配置。
+
+5. 部署：
+
+   ```bash
+   npm run deploy
+   ```
 
 ## 调用示例
 
@@ -122,8 +127,7 @@ async function fetchFileContent({
   filePath,
   token = null,
 }) {
-  const url =
-    `http://localhost:8000/github-api/repos/${owner}/${repo}/contents/${filePath}?ref=${branch}`;
+  const url = `http://localhost:8000/github-api/repos/${owner}/${repo}/contents/${filePath}?ref=${branch}`;
 
   const headers = {
     Accept: "application/vnd.github.v3+json",

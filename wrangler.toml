@@ -1,0 +1,7 @@
+name = "open-proxy-apis"
+main = "src/main.ts"
+compatibility_date = "2026-07-17"
+compatibility_flags = ["nodejs_compat"]
+
+[observability]
+enabled = true

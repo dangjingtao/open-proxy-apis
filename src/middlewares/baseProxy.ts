@@ -1,4 +1,5 @@
 import { Context, HonoRequest, Next } from "hono";
+import { getEnv } from "../config/env.ts";
 
 const handleTavily = async (req: HonoRequest, API_KEY: string) => {
   const json = await req.json();
@@ -30,7 +31,7 @@ const baseProxy = ({
   require_api_key: boolean;
 }) => {
   return async (c: Context, next: Next) => {
-    const API_KEY = Deno.env.get(`${provider.toUpperCase()}_API_KEY`);
+    const API_KEY = getEnv(c.env, `${provider.toUpperCase()}_API_KEY`);
     if (!API_KEY && require_api_key) {
       throw new Error(`Please set ${provider.toUpperCase()}_API_KEY`);
     }
@@ -44,7 +45,6 @@ const baseProxy = ({
         throw new Error("Please set TAVILY_API_KEY");
       }
       response = await handleTavily(c.req, API_KEY);
-      console.log(response);
     } else {
       const authHeaders = new Headers(Object.fromEntries(c.req.raw.headers));
       if (require_api_key && API_KEY) {
@@ -87,9 +87,11 @@ const baseProxy = ({
       const newRequest = new Request(url, {
         headers: authHeaders,
         method: c.req.method,
-        body: c.req.method !== "GET" && c.req.method !== "HEAD"
-          ? (proxyBody as BodyInit)
-          : undefined,
+        body:
+          c.req.method !== "GET" && c.req.method !== "HEAD"
+            ? (proxyBody as BodyInit)
+            : undefined,
+        duplex: "half",
         redirect: "follow",
       });
 

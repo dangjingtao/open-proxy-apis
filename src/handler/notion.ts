@@ -2,15 +2,19 @@ import { Context, Hono } from "hono";
 import { NotionConverter } from "notion-to-md";
 import { DefaultExporter } from "notion-to-md/plugins/exporter";
 import { APIErrorCode, Client, isNotionClientError } from "@notionhq/client";
-const NOTION_API_KEY = Deno.env.get("NOTION_API_KEY");
-const NOTION_DB_ID = Deno.env.get("NOTION_DB_ID");
+import { getEnv } from "../config/env.ts";
 
-const notion = new Client({
-  auth: NOTION_API_KEY,
-});
+const getNotionConfig = (context: Context) => {
+  const apiKey = getEnv(context.env, "NOTION_API_KEY");
+  return {
+    notion: new Client({ auth: apiKey }),
+    databaseId: getEnv(context.env, "NOTION_DB_ID"),
+  };
+};
 
 const getUsers = async (context: Context) => {
   try {
+    const { notion } = getNotionConfig(context);
     const listUsersResponse = await notion.users.list({});
 
     return context.json(listUsersResponse.results, 200);
@@ -29,6 +33,7 @@ const getUsers = async (context: Context) => {
 
 const getBot = async (context: Context) => {
   try {
+    const { notion } = getNotionConfig(context);
     const bot = await notion.users.me({});
 
     return context.json(bot, 200);
@@ -46,13 +51,14 @@ const getBot = async (context: Context) => {
 };
 
 const getDatabase = async (context: Context) => {
-  if (!NOTION_DB_ID) {
+  const { notion, databaseId } = getNotionConfig(context);
+  if (!databaseId) {
     throw new Error("NOTION_DB_ID is not defined");
   }
 
   try {
     const listUsersResponse = await notion.databases.query({
-      database_id: NOTION_DB_ID,
+      database_id: databaseId,
     });
 
     return context.json(listUsersResponse.results, 200);
@@ -79,6 +85,7 @@ const retrievePage = async (context: Context) => {
     buffer: buffer,
   });
 
+  const { notion } = getNotionConfig(context);
   const n2m = new NotionConverter(notion).withExporter(exporter);
   await n2m.convert(pageId);
 
@@ -86,13 +93,14 @@ const retrievePage = async (context: Context) => {
 };
 
 const createPageWithContent = async (context: Context) => {
-  if (!NOTION_DB_ID) {
+  const { notion, databaseId } = getNotionConfig(context);
+  if (!databaseId) {
     return context.json({ error: "NOTION_DB_ID is not defined" }, 500);
   }
 
   const body = await context.req.json();
   const params = {
-    parent: { database_id: NOTION_DB_ID },
+    parent: { database_id: databaseId },
     ...body,
   };
 
